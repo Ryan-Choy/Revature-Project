@@ -1,0 +1,19 @@
+Bank notes
+
+components:
+-main
+--should feature everything, start with log in ui and then take them to the appropriate places
+
+-models
+
+-customer services
+--apply to create a new bank account with starting balance
+---figure out how to call to employee for approval
+--add create customer account
+--view bank accounts balances
+--
+
+-dbutil
+--figure out how to pull from postgres to validate log in information
+
+
