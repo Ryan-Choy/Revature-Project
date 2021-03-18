@@ -5,15 +5,30 @@ components:
 --should feature everything, start with log in ui and then take them to the appropriate places
 
 -models
+-customer, user, account
 
 -customer services
 --apply to create a new bank account with starting balance
 ---figure out how to call to employee for approval
 --add create customer account
 --view bank accounts balances
---
+--transfer money
+--accept money transfers (figure out how)
+
+-employee services
+--approve/reject account application for bank and customer
+--view customer's bank accounts
+--view log of all transactions
+
+-system
+--exceptions: errors like invalid transactions (ERROR LEVEL)
+--validations
+--figure out if multiple log files can be created
+
 
 -dbutil
 --figure out how to pull from postgres to validate log in information
+--if select statement = input is true, then move on
 
+-system
 
