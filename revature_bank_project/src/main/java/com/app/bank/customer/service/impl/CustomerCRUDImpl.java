@@ -1,14 +1,18 @@
 package com.app.bank.customer.service.impl;
 
-import com.app.bank.customer.service.CustomerCreation;
+import com.app.bank.customer.service.CustomerCRUD;
+import com.app.bank.customer.service.dao.CustomerCreationDAO;
+import com.app.bank.customer.service.dao.impl.CustomerCreationDAOImpl;
 import com.app.bank.exception.BusinessBankException;
-import com.app.bank.model.Customer;
+import com.app.bank.model.User;
 import com.app.bank.validations.BankValidations;
 
-public class CustomerCreationImpl implements CustomerCreation {
+public class CustomerCRUDImpl implements CustomerCRUD {
 
+	private CustomerCreationDAO customercreationdao = new CustomerCreationDAOImpl();
+	
 	@Override
-	public int createCustomer(Customer customer) throws BusinessBankException {
+	public int createCustomer(User customer) throws BusinessBankException {
 
 		if (!BankValidations.isValidName(customer.getFirstname())) {
 			throw new BusinessBankException("Entered first name " + customer.getFirstname() + " is invalid");
@@ -32,7 +36,7 @@ public class CustomerCreationImpl implements CustomerCreation {
 		}
 		
 
-		return 0;
+		return customercreationdao.createCustomer(customer);
 
 	}
 

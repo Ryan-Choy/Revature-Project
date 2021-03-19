@@ -1,81 +1,73 @@
 package com.app.bank.model;
 
 public class Customer {
-	private String id;
-	private String firstname;
-	private String lastname;
-	private String username;
-	private String password;
+	private int customerid;
+	private String city;
+	private String state;
+	private String phone;
 	private String email;
+	private String usertype;
+	private String customerstatus;
 	
-	public Customer(String id, String firstname, String lastname, String username, String password, String email) {
+	
+	public Customer(int customerid, String city, String state, String phone, String email, String usertype,
+			String customerstatus) {
 		super();
-		this.id = id;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.username = username;
-		this.password = password;
+		this.customerid = customerid;
+		this.city = city;
+		this.state = state;
+		this.phone = phone;
 		this.email = email;
+		this.usertype = usertype;
+		this.customerstatus = customerstatus;
 	}
-
-
-
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", username=" + username + ", firstname=" + firstname + ", lastname=" + lastname
-				+ ", email=" + email + "]";
+		return "Customer [customerid=" + customerid + ", city=" + city + ", state=" + state + ", phone=" + phone
+				+ ", email=" + email + ", usertype=" + usertype + ", customerstatus=" + customerstatus + "]";
 	}
-
-
-
-	public String getId() {
-		return id;
+	public int getCustomerid() {
+		return customerid;
 	}
-
-	public void setId(String id) {
-		this.id = id;
+	public void setCustomerid(int customerid) {
+		this.customerid = customerid;
 	}
-
-	public String getFirstname() {
-		return firstname;
+	public String getCity() {
+		return city;
 	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setCity(String city) {
+		this.city = city;
 	}
-
-	public String getLastname() {
-		return lastname;
+	public String getState() {
+		return state;
 	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setState(String state) {
+		this.state = state;
 	}
-
-	public String getUsername() {
-		return username;
+	public String getPhone() {
+		return phone;
 	}
-
-	public void setUsername(String username) {
-		this.username = username;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getUsertype() {
+		return usertype;
+	}
+	public void setUsertype(String usertype) {
+		this.usertype = usertype;
+	}
+	public String getCustomerstatus() {
+		return customerstatus;
+	}
+	public void setCustomerstatus(String customerstatus) {
+		this.customerstatus = customerstatus;
+	}
 	
 	
-
 }

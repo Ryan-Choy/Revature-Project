@@ -13,3 +13,10 @@
 {WARN} -  [com.app.bank.main.BankMain]   -     test again     Mar-17-2021 Wednesday PDT 08:54:26
 {WARN} -  [com.app.bank.main.BankMain]   -     test again     Mar-17-2021 Wednesday PDT 08:56:11
 {WARN} -  [com.app.bank.main.BankMain]   -     test again     Mar-17-2021 Wednesday PDT 08:56:19
+{INFO} -  [com.app.bank.main.BankMain]   -     Welcome to Ryan Choy's Banking App version 1.0     Mar-18-2021 Thursday PDT 08:37:50
+{INFO} -  [com.app.bank.main.BankMain]   -     =============================================     Mar-18-2021 Thursday PDT 08:37:50
+{INFO} -  [com.app.bank.main.BankMain]   -     Please enter a number from 1 to 4 to navigate the menu:     Mar-18-2021 Thursday PDT 08:37:50
+{INFO} -  [com.app.bank.main.BankMain]   -     1) Log in as a customer     Mar-18-2021 Thursday PDT 08:37:50
+{INFO} -  [com.app.bank.main.BankMain]   -     2) Log in as an employee     Mar-18-2021 Thursday PDT 08:37:50
+{INFO} -  [com.app.bank.main.BankMain]   -     3) Apply for a new customer account     Mar-18-2021 Thursday PDT 08:37:50
+{INFO} -  [com.app.bank.main.BankMain]   -     4) Exit the application     Mar-18-2021 Thursday PDT 08:37:50
