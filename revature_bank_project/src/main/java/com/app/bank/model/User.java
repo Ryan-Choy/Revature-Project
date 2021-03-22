@@ -15,6 +15,9 @@ public class User {
 		this.userpassword = userpassword;
 		this.usertype = usertype;
 	}
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getFirstname() {
 		return firstname;
 	}

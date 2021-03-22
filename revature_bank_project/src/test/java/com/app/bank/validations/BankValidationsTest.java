@@ -11,4 +11,8 @@ public class BankValidationsTest {
 		assertEquals(true, BankValidations.isValidEmail("rchoy1@gmail.com"));
 	}
 	
+	@Test
+	public void testisValidPhone() {
+		assertEquals(true, BankValidations.isValidPhone("+1-9995553322"));
+	}
 }

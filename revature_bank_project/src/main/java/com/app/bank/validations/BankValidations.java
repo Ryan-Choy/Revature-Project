@@ -11,7 +11,7 @@ public class BankValidations {
 	}
 
 	public static boolean isValidUserName(String username) {
-		if (username != null && username.matches("\\w{3,15}")) {
+		if (username != null && username.matches("\\w{3,30}")) {
 			return true;
 		} else {
 			return false;
@@ -21,7 +21,7 @@ public class BankValidations {
 
 	public static boolean isValidPassword(String pass) {
 		// [^\s] stands for no whitespace character, prevents spaces from being used
-		if (pass != null && pass.matches("\\w{8,15}")) {
+		if (pass != null && pass.matches("\\w{8,30}")) {
 			return true;
 		} else {
 			return false;
@@ -30,7 +30,7 @@ public class BankValidations {
 
 	public static boolean isValidEmail(String email) {
 		String emailregex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-		//#$%&'*+-/=? not allowed
+		// #$%&'*+-/=? not allowed
 
 		if (email != null && email.matches(emailregex)) {
 			return true;
@@ -39,20 +39,54 @@ public class BankValidations {
 		}
 	}
 
-	public static boolean isValidCustomerId(String customerid) {
-		if (customerid != null && customerid.matches("C[0-9]{6}")) {
+	public static boolean isValidUserType(String type) {
+		if (type != null && type.matches("Customer|Employee")) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public static boolean isValidAccountId(String accountid) {
-		if (accountid != null && accountid.matches("A[0-9]{6}")) {
+	public static boolean isValidCity(String city) {
+		if (city != null && city.matches("[a-zA-Z]{3,50}")) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
+	public static boolean isValidState(String state) {
+		if (state != null && state.matches("[a-zA-Z]{2,30}")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean isValidStatus(String status) {
+		if (status != null && status.matches("Pending|Approved|Rejected")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean isValidBalance(int balance) {
+		if (balance >= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static boolean isValidPhone(String phone) {
+		if(phone != null && phone.matches("\\+1-[0-9]{10}")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
 
 }

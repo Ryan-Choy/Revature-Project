@@ -8,10 +8,13 @@ public class Customer {
 	private String email;
 	private String usertype;
 	private String customerstatus;
+	private String firstname;
+	private String lastname;
+	private String username;
 	
 	
 	public Customer(int customerid, String city, String state, String phone, String email, String usertype,
-			String customerstatus) {
+			String customerstatus, String firstname, String lastname, String username) {
 		super();
 		this.customerid = customerid;
 		this.city = city;
@@ -20,11 +23,36 @@ public class Customer {
 		this.email = email;
 		this.usertype = usertype;
 		this.customerstatus = customerstatus;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.username = username;
 	}
 	@Override
 	public String toString() {
-		return "Customer [customerid=" + customerid + ", city=" + city + ", state=" + state + ", phone=" + phone
-				+ ", email=" + email + ", usertype=" + usertype + ", customerstatus=" + customerstatus + "]";
+		return "Customer [customerid=" + customerid + ", firstname=" + firstname + ", lastname=" + lastname
+				+ ", username=" + username + ", city=" + city + ", state=" + state + ", phone=" + phone + ", email="
+				+ email + ", usertype=" + usertype + ", customerstatus=" + customerstatus + "]";
+	}
+	public String getFirstname() {
+		return firstname;
+	}
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+	public String getLastname() {
+		return lastname;
+	}
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public Customer() {
+		// TODO Auto-generated constructor stub
 	}
 	public int getCustomerid() {
 		return customerid;

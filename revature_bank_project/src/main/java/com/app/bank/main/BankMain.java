@@ -4,10 +4,11 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-import com.app.bank.customer.service.CustomerCRUD;
-import com.app.bank.customer.service.impl.CustomerCRUDImpl;
 import com.app.bank.exception.BusinessBankException;
+import com.app.bank.model.Customer;
 import com.app.bank.model.User;
+import com.app.bank.user.service.UserCRUD;
+import com.app.bank.user.service.impl.UserCRUDImpl;
 
 
 
@@ -19,8 +20,8 @@ public class BankMain {
 		log.info("=============================================");
 		int us = 0;
 		Scanner scanner = new Scanner(System.in);
-		CustomerCRUD customerCRUD = new CustomerCRUDImpl();
-		User customer = new User();
+		UserCRUD customerCRUD = new UserCRUDImpl();
+	
 
 		do {
 			log.info("Please enter a number from 1 to 4 to navigate the menu:");
@@ -46,28 +47,37 @@ public class BankMain {
 				break;
 			case 3:
 				//customer creation, account status
-				log.info("Enter the following details to create a customer account.");
+				log.info("Please enter the following details below");
+				User user = new User();
+				Customer customer = new Customer();
+				
 				log.info("Enter your first name");
-				customer.setFirstname(scanner.nextLine());
+				user.setFirstname(scanner.nextLine());
 				log.info("Enter your last name");
-				customer.setLastname(scanner.nextLine());
-				log.info("Enter your user name");
-				customer.setUsername(scanner.nextLine());
-				log.info("Enter your password with a minimum length of 8");
-				customer.setPassword(scanner.nextLine());
-				// reenter your password
-				log.info(
-						"Enter your email in the following format: example@example.com, all characters except #$%&'*+-/=? are allowed and . are not allowed at the start and the end of the portion before the @");
+				user.setLastname(scanner.nextLine());
+				log.info("Enter your user name, this is what you will be using to log in.");
+				user.setUsername(scanner.nextLine());
+				log.info("Enter your password with at least 8 characters, do not share it with anyone");
+				user.setUserpassword(scanner.nextLine());
+				log.info("Enter your city");
+				customer.setCity(scanner.nextLine());
+				log.info("Enter your state");
+				customer.setState(scanner.nextLine());
+				log.info("Enter your phone number in the format +1-##########");
+				customer.setPhone(scanner.nextLine());
+				log.info("Enter your email, it must contain at least an @ and a website");
 				customer.setEmail(scanner.nextLine());
-
+				
 				try {
-					if (customerCRUD.createCustomer(customer) == 1) {
-						log.info("Customer account created successfully with the below details, please wait for an employee to approve it");
+					if(customerCRUD.createCustomer(user, customer)==1) {
 						log.info(customer);
+						log.info(user);
 					}
 				} catch (BusinessBankException e) {
-					log.info(e.getMessage());
+					// TODO Auto-generated catch block
+					log.info(e);
 				}
+				
 				break;
 				
 			case 4:
