@@ -6,6 +6,21 @@ public class Employee {
 	private String lastname;
 	private String username;
 	
+	public Employee(String employid, String firstname, String lastname, String username) {
+		super();
+		this.employid = employid;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.username = username;
+	}
+	public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Employee [employid=" + employid + ", firstname=" + firstname + ", lastname=" + lastname + ", username="
+				+ username + "]";
+	}
 	public String getFirstname() {
 		return firstname;
 	}

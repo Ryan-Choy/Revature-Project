@@ -6,7 +6,6 @@ public class Customer {
 	private String state;
 	private String phone;
 	private String email;
-	private String usertype;
 	private String customerstatus;
 	private String firstname;
 	private String lastname;
@@ -21,18 +20,18 @@ public class Customer {
 		this.state = state;
 		this.phone = phone;
 		this.email = email;
-		this.usertype = usertype;
 		this.customerstatus = customerstatus;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.username = username;
 	}
+
 	@Override
 	public String toString() {
-		return "Customer [customerid=" + customerid + ", firstname=" + firstname + ", lastname=" + lastname
-				+ ", username=" + username + ", city=" + city + ", state=" + state + ", phone=" + phone + ", email="
-				+ email + ", usertype=" + usertype + ", customerstatus=" + customerstatus + "]";
+		return "Customer [customerid=" + customerid + ", city=" + city + ", state=" + state + ", phone=" + phone
+				+ ", email=" + email + ", customerstatus=" + customerstatus + "]";
 	}
+
 	public String getFirstname() {
 		return firstname;
 	}
@@ -83,12 +82,6 @@ public class Customer {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public String getUsertype() {
-		return usertype;
-	}
-	public void setUsertype(String usertype) {
-		this.usertype = usertype;
 	}
 	public String getCustomerstatus() {
 		return customerstatus;

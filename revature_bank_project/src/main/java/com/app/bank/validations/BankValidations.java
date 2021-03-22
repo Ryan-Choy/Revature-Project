@@ -64,7 +64,7 @@ public class BankValidations {
 	}
 
 	public static boolean isValidStatus(String status) {
-		if (status != null && status.matches("Pending|Approved|Rejected")) {
+		if (status != null && status.matches("Approved")) {
 			return true;
 		} else {
 			return false;
@@ -86,7 +86,5 @@ public class BankValidations {
 			return false;
 		}
 	}
-	
-	
 
 }
