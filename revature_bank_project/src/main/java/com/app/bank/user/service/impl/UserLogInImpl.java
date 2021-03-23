@@ -26,14 +26,14 @@ public class UserLogInImpl implements UserLogIn {
 	}
 
 	@Override
-	public Employee employeeLogIn(String username, String userpassword) throws BusinessBankException {
-		if (!BankValidations.isValidUserName(username)) {
-			throw new BusinessBankException("Entered user name " + username + " is invalid.");
+	public Employee employeeLogIn(String employname, String employpassword) throws BusinessBankException {
+		if (!BankValidations.isValidUserName(employname)) {
+			throw new BusinessBankException("Entered user name " + employname + " is invalid.");
 		}
-		if (!BankValidations.isValidPassword(userpassword)) {
-			throw new BusinessBankException("Entered password " + userpassword + " is invalid.");
+		if (!BankValidations.isValidPassword(employpassword)) {
+			throw new BusinessBankException("Entered password " + employpassword + " is invalid.");
 		}
-		return null;
+		return userlogin.employeeLogIn(employname, employpassword);
 	}
 
 }

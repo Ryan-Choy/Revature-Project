@@ -1,5 +1,6 @@
 package com.app.bank.main;
 
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
@@ -22,8 +23,7 @@ public class BankMain {
 		int us = 0;
 		Scanner scanner = new Scanner(System.in);
 		UserCRUD customerCRUD = new UserCRUDImpl();
-		UserLogIn userLogIn = null;
-
+		UserLogIn userLogIn = new UserLogInImpl();
 		do {
 			log.info("Please enter a number from 1 to 4 to navigate the menu:");
 			log.info("1) Log in as a customer");
@@ -38,8 +38,9 @@ public class BankMain {
 			}
 
 			switch (us) {
+
 			case 1:
-				userLogIn = new UserLogInImpl();
+
 				try {
 					log.info("Please enter your user name");
 					String username = scanner.nextLine();
@@ -55,6 +56,47 @@ public class BankMain {
 					} else {
 						log.info("Login successful! Welcome Customer " + custom.getFirstname() + " "
 								+ custom.getLastname());
+						int cu = 0;
+						do {
+							log.info("Please enter a number from 1 to 4 to navigate the menu:");
+							log.info("1) Approve or Reject transfers");
+							log.info("2) Apply for a bank account");
+							log.info("3) View the balance of an account");
+							log.info("4) Make a withdrawal or deposit to an account.");
+							log.info("5) Log out");
+							cu = Integer.parseInt(scanner.nextLine());
+
+							switch (cu) {
+							case 1:
+								log.info("in construction");
+
+								int transfer = 0;
+								log.info("You have " + transfer
+										+ " transfers from other accounts waiting to be accepted or rejected");
+								break;
+							case 2:
+								log.info("in construction");
+
+								break;
+							case 3:
+								log.info("in construction");
+
+								break;
+							case 4:
+								log.info("in construction");
+
+								break;
+							case 5:
+								log.info("in construction");
+
+								break;
+
+							default:
+								log.info("Invalid choice, please enter a proper choice between 1-4 only...");
+								break;
+							}
+						} while (cu != 5);
+
 					}
 
 				} catch (BusinessBankException e1) {
@@ -64,21 +106,160 @@ public class BankMain {
 
 				break;
 
-			// log in as employee
 			case 2:
-				userLogIn = new UserLogInImpl();
+
 				try {
-				log.info("Please enter your user name");
-				String username = scanner.nextLine();
-				log.info("Please enter your password");
-				String userpassword = scanner.nextLine();
-				Employee employ = userLogIn.employeeLogIn(username, userpassword);
-				log.info("Login successful! Welcome Employee "+employ.getFirstname()+" "+employ.getLastname());
-				} catch (BusinessBankException e1) {
+					log.info("Please enter your user name");
+					String employname = scanner.nextLine();
+					log.info("Please enter your password");
+					String employpassword = scanner.nextLine();
+					Employee employ = userLogIn.employeeLogIn(employname, employpassword);
+					if (employ != null) {
+						log.info("Login successful! Welcome Employee " + employ.getFirstname() + " "
+								+ employ.getLastname());
+						int em = 0;
+						do {
+							log.info("Please enter a number from 1 to 4 to navigate the menu:");
+							log.info("1) Approve or Reject accounts");
+							log.info("2) View customer's bank accounts");
+							log.info("3) View transaction log");
+							log.info("4) Log out");
+
+							try {
+								em = Integer.parseInt(scanner.nextLine());
+							} catch (NumberFormatException e) {
+							}
+
+							switch (em) {
+							case 1:
+								// result set, list, update
+								int up = 0;
+								do {
+									List<Customer> upCustomer = customerCRUD.getPendCustomer();
+									int pendcust = upCustomer.size();
+									int pendbank = 0;
+									log.info("You have " + pendcust + " customer accounts and " + pendbank
+											+ " bank accounts waiting to be to be approved or rejected");
+									log.info("Enter one of the following to navigate the menu");
+									log.info("1) Process Customer accounts");
+									log.info("2) Process Bank accounts");
+									log.info("3) Return to the employee submenu");
+
+									try {
+										up = Integer.parseInt(scanner.nextLine());
+									} catch (NumberFormatException e) {
+
+										e.printStackTrace();
+									}
+
+									switch (up) {
+									case 1:
+										if (pendcust == 0) {
+											log.info("There are no pending customer accounts to be processed");
+										} else {
+											for (int i = 0; i < upCustomer.size(); i++) {
+												log.info((i + 1) + ")" + upCustomer.get(i));
+											}
+											log.info((upCustomer.size() + 1) + ") Cancel the process");
+											int selc = 0;
+											try {
+												log.info("Please enter the customer account between 1 - "
+														+ (upCustomer.size() + 1));
+												selc = Integer.parseInt(scanner.nextLine());
+											} catch (NumberFormatException e) {
+
+											}
+											if (selc == 0) {
+												log.info("Invalid choice, please enter a proper choice between 1-"
+														+ (upCustomer.size() + 1) + " only...");
+											}
+											if (selc > 0 && selc <= upCustomer.size() + 1) {
+												if (selc == upCustomer.size() + 1) {
+													break;
+												} else {
+													// update account here
+													int arc = 0;
+													do {
+														log.info(
+																"Enter the following to approve or reject the account.");
+														log.info("1) Approve");
+														log.info("2) Reject");
+														log.info("3) Cancel");
+
+														try {
+															arc = Integer.parseInt(scanner.nextLine());
+														} catch (NumberFormatException e) {
+
+														}
+														switch (arc) {
+														case 1:
+															// approve
+															break;
+														case 2:
+															// reject
+															break;
+														case 3:
+															// cancel
+															break;
+														default:
+															log.info(
+																	"Invalid choice, please enter a proper choice between 1-3 only...");
+															break;
+														}
+													} while (arc != 3);
+												}
+											} else {
+												log.info("Invalid choice, please enter a proper choice between 1-"
+														+ (upCustomer.size() + 1) + " only...");
+
+											}
+
+										}
+										break;
+									case 2:
+
+										break;
+									case 3:
+										log.info("Returning to employee submenu...");
+										break;
+									default:
+										log.info("Invalid choice, please enter a proper choice between 1-3 only...");
+										break;
+									}
+								} while (up != 3);
+
+								break;
+
+							case 2:
+								log.info("in construction");
+								log.info("Enter the customer's id to view their bank accounts.");
+
+								break;
+							case 3:
+								log.info("in construction");
+								log.info("Loading transaction log");
+								log.info("Loading successfull!");
+
+								break;
+							case 4:
+								log.info("Logging out...");
+
+								break;
+							default:
+								log.info("Invalid choice, please enter a proper choice between 1-4 only...");
+								break;
+							}
+
+						} while (em != 4);
+
+					} else {
+						log.info("Login failed");
+					}
+				} catch (BusinessBankException e2) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					e2.printStackTrace();
 				}
-				
+
 				break;
 			case 3:
 				// customer creation, account status

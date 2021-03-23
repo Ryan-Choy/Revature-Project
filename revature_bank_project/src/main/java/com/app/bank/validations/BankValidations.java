@@ -48,7 +48,7 @@ public class BankValidations {
 	}
 
 	public static boolean isValidCity(String city) {
-		if (city != null && city.matches("[a-zA-Z]{3,50}")) {
+		if (city != null && city.matches("[a-zA-Z[\\h]]{3,50}")) {
 			return true;
 		} else {
 			return false;
@@ -63,8 +63,8 @@ public class BankValidations {
 		}
 	}
 
-	public static boolean isValidStatus(String status) {
-		if (status != null && status.matches("Approved")) {
+	public static boolean isValidUpdate(String status) {
+		if (status != null && status.matches("Approved|Rejected")) {
 			return true;
 		} else {
 			return false;

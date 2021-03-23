@@ -8,6 +8,6 @@ public interface UserLogIn {
 	
 	public Customer customerLogIn(String username, String userpassword) throws BusinessBankException;
 	
-	public Employee employeeLogIn(String username, String userpassword) throws BusinessBankException;
+	public Employee employeeLogIn(String employname, String employpassword) throws BusinessBankException;
 
 }

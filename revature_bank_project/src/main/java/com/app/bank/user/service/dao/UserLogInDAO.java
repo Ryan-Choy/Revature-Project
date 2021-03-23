@@ -7,7 +7,7 @@ import com.app.bank.model.Employee;
 
 public interface UserLogInDAO {
 	public Customer customerLogIn(String username, String userpassword) throws BusinessBankException;
-	public Employee employeeLogIn(String username, String userpassword) throws BusinessBankException;
+	public Employee employeeLogIn(String employname, String employpassword) throws BusinessBankException;
 
 
 }

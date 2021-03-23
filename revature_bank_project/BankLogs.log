@@ -20,3 +20,32 @@
 {INFO} -  [com.app.bank.main.BankMain]   -     2) Log in as an employee     Mar-18-2021 Thursday PDT 08:37:50
 {INFO} -  [com.app.bank.main.BankMain]   -     3) Apply for a new customer account     Mar-18-2021 Thursday PDT 08:37:50
 {INFO} -  [com.app.bank.main.BankMain]   -     4) Exit the application     Mar-18-2021 Thursday PDT 08:37:50
+{INFO} -  [com.app.bank.main.BankMain]   -     Welcome to Ryan Choy's Banking App version 1.0     Mar-23-2021 Tuesday PDT 08:02:41
+{INFO} -  [com.app.bank.main.BankMain]   -     =============================================     Mar-23-2021 Tuesday PDT 08:02:41
+{INFO} -  [com.app.bank.main.BankMain]   -     Please enter a number from 1 to 4 to navigate the menu:     Mar-23-2021 Tuesday PDT 08:02:41
+{INFO} -  [com.app.bank.main.BankMain]   -     1) Log in as a customer     Mar-23-2021 Tuesday PDT 08:02:41
+{INFO} -  [com.app.bank.main.BankMain]   -     2) Log in as an employee     Mar-23-2021 Tuesday PDT 08:02:41
+{INFO} -  [com.app.bank.main.BankMain]   -     3) Apply for a new customer account     Mar-23-2021 Tuesday PDT 08:02:41
+{INFO} -  [com.app.bank.main.BankMain]   -     4) Exit the application     Mar-23-2021 Tuesday PDT 08:02:41
+{INFO} -  [com.app.bank.main.BankMain]   -     Thank you for using the Banking App version 1.0, exiting the program...     Mar-23-2021 Tuesday PDT 08:02:43
+{INFO} -  [com.app.bank.main.BankMain]   -     Welcome to Ryan Choy's Banking App version 1.0     Mar-23-2021 Tuesday PDT 10:59:55
+{INFO} -  [com.app.bank.main.BankMain]   -     =============================================     Mar-23-2021 Tuesday PDT 10:59:55
+{INFO} -  [com.app.bank.main.BankMain]   -     Please enter a number from 1 to 4 to navigate the menu:     Mar-23-2021 Tuesday PDT 10:59:55
+{INFO} -  [com.app.bank.main.BankMain]   -     1) Log in as a customer     Mar-23-2021 Tuesday PDT 10:59:55
+{INFO} -  [com.app.bank.main.BankMain]   -     2) Log in as an employee     Mar-23-2021 Tuesday PDT 10:59:55
+{INFO} -  [com.app.bank.main.BankMain]   -     3) Apply for a new customer account     Mar-23-2021 Tuesday PDT 10:59:55
+{INFO} -  [com.app.bank.main.BankMain]   -     4) Exit the application     Mar-23-2021 Tuesday PDT 10:59:55
+{INFO} -  [com.app.bank.main.BankMain]   -     Please enter your user name     Mar-23-2021 Tuesday PDT 10:59:56
+{INFO} -  [com.app.bank.main.BankMain]   -     Please enter your password     Mar-23-2021 Tuesday PDT 10:59:58
+{INFO} -  [com.app.bank.main.BankMain]   -     Login successful! Welcome Employee Justin Choy     Mar-23-2021 Tuesday PDT 11:00:00
+{INFO} -  [com.app.bank.main.BankMain]   -     Please enter a number from 1 to 4 to navigate the menu:     Mar-23-2021 Tuesday PDT 11:00:00
+{INFO} -  [com.app.bank.main.BankMain]   -     1) Approve or Reject accounts     Mar-23-2021 Tuesday PDT 11:00:00
+{INFO} -  [com.app.bank.main.BankMain]   -     2) View customer's bank accounts     Mar-23-2021 Tuesday PDT 11:00:00
+{INFO} -  [com.app.bank.main.BankMain]   -     3) View transaction log     Mar-23-2021 Tuesday PDT 11:00:00
+{INFO} -  [com.app.bank.main.BankMain]   -     4) Log out     Mar-23-2021 Tuesday PDT 11:00:00
+{INFO} -  [com.app.bank.main.BankMain]   -     Please enter a number from 1 to 4 to navigate the menu:     Mar-23-2021 Tuesday PDT 11:00:14
+{INFO} -  [com.app.bank.main.BankMain]   -     1) Log in as a customer     Mar-23-2021 Tuesday PDT 11:00:14
+{INFO} -  [com.app.bank.main.BankMain]   -     2) Log in as an employee     Mar-23-2021 Tuesday PDT 11:00:14
+{INFO} -  [com.app.bank.main.BankMain]   -     3) Apply for a new customer account     Mar-23-2021 Tuesday PDT 11:00:14
+{INFO} -  [com.app.bank.main.BankMain]   -     4) Exit the application     Mar-23-2021 Tuesday PDT 11:00:14
+{INFO} -  [com.app.bank.main.BankMain]   -     Thank you for using the Banking App version 1.0, exiting the program...     Mar-23-2021 Tuesday PDT 11:00:20

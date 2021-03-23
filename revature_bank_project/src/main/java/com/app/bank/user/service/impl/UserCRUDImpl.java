@@ -1,5 +1,7 @@
 package com.app.bank.user.service.impl;
 
+import java.util.List;
+
 import com.app.bank.exception.BusinessBankException;
 import com.app.bank.model.Customer;
 import com.app.bank.model.User;
@@ -37,10 +39,24 @@ public class UserCRUDImpl implements UserCRUD {
 			throw new BusinessBankException("Entered phone number "+customer.getPhone()+ " is invalid.");
 		}
 	
-		
-
 		return usercruddao.createCustomer(user, customer);
 
+	}
+
+	@Override
+	public List<Customer> getPendCustomer() throws BusinessBankException {
+		
+		return usercruddao.getPendCustomer();
+	}
+
+	@Override
+	public String upPendCustomer(String statup) throws BusinessBankException {
+		
+		if(!BankValidations.isValidUpdate(statup)) {
+			throw new BusinessBankException("Entered status "+ statup +" is invalid.");
+		}
+
+		return ;
 	}
 
 }
