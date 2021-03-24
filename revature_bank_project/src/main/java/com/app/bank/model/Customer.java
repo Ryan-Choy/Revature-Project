@@ -26,11 +26,16 @@ public class Customer {
 		this.username = username;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Customer [customerid=" + customerid + ", city=" + city + ", state=" + state + ", phone=" + phone
-				+ ", email=" + email + ", customerstatus=" + customerstatus + "]";
+		return "Customer [customerid=" + customerid + ", firstname=" + firstname + ", lastname=" + lastname
+				+ ", username=" + username + ", city=" + city + ", state=" + state + ", phone=" + phone + ", email="
+				+ email + ", customerstatus=" + customerstatus + "]";
 	}
+
+
 
 	public String getFirstname() {
 		return firstname;

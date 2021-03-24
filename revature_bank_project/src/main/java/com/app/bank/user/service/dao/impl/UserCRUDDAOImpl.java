@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import com.app.bank.dao.dbutil.BankConnection;
 import com.app.bank.exception.BusinessBankException;
 import com.app.bank.model.Customer;
+import com.app.bank.model.Employee;
 import com.app.bank.model.User;
 import com.app.bank.user.service.dao.UserCRUDDAO;
 
@@ -78,12 +79,12 @@ public class UserCRUDDAOImpl implements UserCRUDDAO {
 	}
 
 	@Override
-	public List<Customer> getPendCustomer() throws BusinessBankException {
-		List<Customer> pendCustomer = new ArrayList<>();
+	public List<Customer> getCustomer() throws BusinessBankException {
+		List<Customer> listCustomer = new ArrayList<>();
 		Connection connect = null;
 		try {
 			connect = BankConnection.getConnection();
-			String sql1 = "select customerid,firstname,lastname,username,city,state,phone,email,customerstatus from bank_schema.customer where customerstatus = 'Pending'";
+			String sql1 = "select customerid,firstname,lastname,username,city,state,phone,email,customerstatus from bank_schema.customer";
 			connect.setAutoCommit(false);
 
 			PreparedStatement prep = connect.prepareStatement(sql1);
@@ -99,9 +100,9 @@ public class UserCRUDDAOImpl implements UserCRUDDAO {
 				customer.setPhone(rSet.getString("phone"));
 				customer.setEmail(rSet.getString("email"));
 				customer.setCustomerstatus(rSet.getString("customerstatus"));
-				pendCustomer.add(customer);
+				listCustomer.add(customer);
 			}
-		
+
 			connect.commit();
 			connect.close();
 
@@ -115,14 +116,91 @@ public class UserCRUDDAOImpl implements UserCRUDDAO {
 			}
 
 		}
-		return pendCustomer;
+		return listCustomer;
 	}
 
 	@Override
-	public String upPendCustomer(String statup) throws BusinessBankException {
-		
-		
-		return null;
+	public String upPendCustomer(String statup, int cid) throws BusinessBankException {
+		String result = " ";
+		int c = 0;
+		Connection connect = null;
+		try {
+			connect = BankConnection.getConnection();
+			connect.setAutoCommit(false);
+			String sql = "update bank_schema.customer set customerstatus=? where customerid=?";
+			PreparedStatement prep = connect.prepareStatement(sql);
+			prep.setString(1, statup);
+			prep.setInt(2, cid);
+			c = prep.executeUpdate();
+
+			if (c == 1) {
+				result = "Customer account updated successfully";
+				connect.commit();
+				connect.close();
+			} else {
+				result = "Update has failed";
+				connect.close();
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			try {
+				connect.rollback();
+				throw new BusinessBankException("Internal error occured...Please contact SYS ADMIN.");
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				log.info(e1);
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	public List<User> getUsers() throws BusinessBankException {
+		List<User> listUsers = new ArrayList<>();
+		try (Connection connect = BankConnection.getConnection()) {
+
+			String sql = "select firstname,lastname,username,userpassword,usertype from bank_schema.users";
+			PreparedStatement prep = connect.prepareStatement(sql);
+			ResultSet rSet = prep.executeQuery();
+			while (rSet.next()) {
+				User user = new User();
+				user.setFirstname(rSet.getString("firstname"));
+				user.setLastname(rSet.getString("lastname"));
+				user.setUsername(rSet.getString("username"));
+				user.setUserpassword(rSet.getString("userpassword"));
+				user.setUsertype(rSet.getString("usertype"));
+				listUsers.add(user);
+			}
+
+		} catch (ClassNotFoundException | SQLException e) {
+			throw new BusinessBankException("Internal error occured...Please contact SYS ADMIN.");
+		}
+		return listUsers;
+	}
+
+
+
+	@Override
+	public List<Employee> getEmployees() throws BusinessBankException {
+		List<Employee> listEmployees = new ArrayList<>();
+		try (Connection connect = BankConnection.getConnection()) {
+
+			String sql = "select employid,firstname,lastname,username from bank_schema.employee";
+			PreparedStatement prep = connect.prepareStatement(sql);
+			ResultSet rSet = prep.executeQuery();
+			while (rSet.next()) {
+				Employee employee = new Employee();
+				employee.setEmployid(rSet.getString("employid"));
+				employee.setFirstname(rSet.getString("firstname"));
+				employee.setLastname(rSet.getString("lastname"));
+				employee.setUsername(rSet.getString("username"));
+				listEmployees.add(employee);
+			}
+
+		} catch (ClassNotFoundException | SQLException e) {
+			throw new BusinessBankException("Internal error occured...Please contact SYS ADMIN.");
+		}
+		return listEmployees;
 	}
 
 }

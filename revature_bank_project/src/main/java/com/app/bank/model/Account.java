@@ -1,19 +1,31 @@
 package com.app.bank.model;
 
+import java.math.BigDecimal;
+
+
 public class Account {
 	private int customerid;
 	private int accountid;
-	private int balance;
+	private BigDecimal balance;
 	private String accountstatus;
 	
 	
-	public Account(int id, int accountid, int balance, String accountstatus) {
+
+	public Account() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	public Account(int customerid, int accountid, BigDecimal balance, String accountstatus) {
 		super();
-		this.customerid = id;
+		this.customerid = customerid;
 		this.accountid = accountid;
 		this.balance = balance;
 		this.accountstatus = accountstatus;
 	}
+
+
 
 	@Override
 	public String toString() {
@@ -21,30 +33,54 @@ public class Account {
 				+ ", accountstatus=" + accountstatus + "]";
 	}
 
-	public int getId() {
+
+
+	public int getCustomerid() {
 		return customerid;
 	}
-	public void setId(int id) {
-		this.customerid = id;
+
+
+
+	public void setCustomerid(int customerid) {
+		this.customerid = customerid;
 	}
+
+
+
 	public int getAccountid() {
 		return accountid;
 	}
+
+
+
 	public void setAccountid(int accountid) {
 		this.accountid = accountid;
 	}
-	public int getBalance() {
+
+
+
+	public BigDecimal getBalance() {
 		return balance;
 	}
-	public void setBalance(int balance) {
+
+
+
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
+
+
+
 	public String getAccountstatus() {
 		return accountstatus;
 	}
+
+
+
 	public void setAccountstatus(String accountstatus) {
 		this.accountstatus = accountstatus;
 	}
+
 
 
 

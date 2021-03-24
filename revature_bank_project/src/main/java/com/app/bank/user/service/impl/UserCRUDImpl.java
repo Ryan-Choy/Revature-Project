@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.app.bank.exception.BusinessBankException;
 import com.app.bank.model.Customer;
+import com.app.bank.model.Employee;
 import com.app.bank.model.User;
 import com.app.bank.user.service.UserCRUD;
 import com.app.bank.user.service.dao.UserCRUDDAO;
@@ -44,19 +45,35 @@ public class UserCRUDImpl implements UserCRUD {
 	}
 
 	@Override
-	public List<Customer> getPendCustomer() throws BusinessBankException {
+	public List<Customer> getCustomer() throws BusinessBankException {
 		
-		return usercruddao.getPendCustomer();
+		return usercruddao.getCustomer();
 	}
 
 	@Override
-	public String upPendCustomer(String statup) throws BusinessBankException {
+	public String upPendCustomer(String statup, int cid) throws BusinessBankException {
 		
 		if(!BankValidations.isValidUpdate(statup)) {
 			throw new BusinessBankException("Entered status "+ statup +" is invalid.");
 		}
 
-		return ;
+		return usercruddao.upPendCustomer(statup, cid);
 	}
+
+	@Override
+	public List<User> getUsers() throws BusinessBankException {
+		// TODO Auto-generated method stub
+		return usercruddao.getUsers();
+	}
+
+
+
+	@Override
+	public List<Employee> getEmployees() throws BusinessBankException {
+		// TODO Auto-generated method stub
+		return usercruddao.getEmployees();
+	}
+
+
 
 }

@@ -1,5 +1,7 @@
 package com.app.bank.validations;
 
+import java.math.BigDecimal;
+
 public class BankValidations {
 
 	public static boolean isValidName(String name) {
@@ -70,9 +72,16 @@ public class BankValidations {
 			return false;
 		}
 	}
+	public static boolean isValidStatus(String status) {
+		if(status != null && status.matches("Approved|Rejected|Pending")) {
+		return true;
+		} else {
+			return false;
+		}
+	}
 
-	public static boolean isValidBalance(int balance) {
-		if (balance >= 0) {
+	public static boolean isValidBalance(BigDecimal balance) {
+		if (balance.compareTo(new BigDecimal(0)) >= 0) {
 			return true;
 		} else {
 			return false;
@@ -81,6 +90,14 @@ public class BankValidations {
 	
 	public static boolean isValidPhone(String phone) {
 		if(phone != null && phone.matches("\\+1-[0-9]{10}")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static boolean isValidId(int id) {
+		if(id >= 1000) {
 			return true;
 		} else {
 			return false;

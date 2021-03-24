@@ -7,25 +7,7 @@ public class Transactions {
 	private int targetid;
 	private int trasacamount;
 	private String transacstatus;
-	
-	
-	
-	public Transactions(String transacdate, int customerid, int accountid, int targetid, int trasacamount,
-			String transacstatus) {
-		super();
-		this.transacdate = transacdate;
-		this.customerid = customerid;
-		this.accountid = accountid;
-		this.targetid = targetid;
-		this.trasacamount = trasacamount;
-		this.transacstatus = transacstatus;
-	}
-	@Override
-	public String toString() {
-		return "Transactions [transacdate=" + transacdate + ", customerid=" + customerid + ", accountid=" + accountid
-				+ ", targetid=" + targetid + ", trasacamount=" + trasacamount + ", transacstatus=" + transacstatus
-				+ "]";
-	}
+	private int transacid;
 	public String getTransacdate() {
 		return transacdate;
 	}
@@ -62,6 +44,33 @@ public class Transactions {
 	public void setTransacstatus(String transacstatus) {
 		this.transacstatus = transacstatus;
 	}
+	public int getTransacid() {
+		return transacid;
+	}
+	public void setTransacid(int transacid) {
+		this.transacid = transacid;
+	}
+	public Transactions(String transacdate, int customerid, int accountid, int targetid, int trasacamount,
+			String transacstatus, int transacid) {
+		super();
+		this.transacdate = transacdate;
+		this.customerid = customerid;
+		this.accountid = accountid;
+		this.targetid = targetid;
+		this.trasacamount = trasacamount;
+		this.transacstatus = transacstatus;
+		this.transacid = transacid;
+	}
+	@Override
+	public String toString() {
+		return "Transactions [transacdate=" + transacdate + ", transacid=" + transacid + ", customerid=" + customerid
+				+ ", accountid=" + accountid + ", targetid=" + targetid + ", trasacamount=" + trasacamount
+				+ ", transacstatus=" + transacstatus + "]";
+	}
+	
+	
+	
+
 	
 	
 }
