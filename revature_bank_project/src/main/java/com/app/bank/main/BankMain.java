@@ -1,6 +1,7 @@
 package com.app.bank.main;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ import com.app.bank.exception.BusinessBankException;
 import com.app.bank.model.Account;
 import com.app.bank.model.Customer;
 import com.app.bank.model.Employee;
+import com.app.bank.model.Transactions;
 import com.app.bank.model.User;
 import com.app.bank.user.service.AccountCRUD;
 import com.app.bank.user.service.UserCRUD;
@@ -84,7 +86,8 @@ public class BankMain {
 											log.info("2) Apply for a bank account");
 											log.info("3) View the balance of an account");
 											log.info("4) Make a withdrawal or deposit to an account.");
-											log.info("5) Log out");
+											log.info("5) Make a transfer");
+											log.info("6) Log out");
 											cu = Integer.parseInt(scanner.nextLine());
 
 											switch (cu) {
@@ -214,6 +217,12 @@ public class BankMain {
 																int aid = updateAccount.get(apoint).getAccountid();
 																BigDecimal fBal = new BigDecimal(0);
 																BigDecimal wBal = null;
+																Transactions dwTransac = new Transactions();
+																dwTransac.setCustomerid(cid);
+																dwTransac.setAccountid(aid);
+																dwTransac.setTargetid(aid);
+																dwTransac.setTransacstatus("Approved");
+																
 																
 																try {
 																	wdflag = Integer.parseInt(scanner.nextLine());
@@ -229,8 +238,11 @@ public class BankMain {
 																		log.info("Entered amount "+ nBald+ " is invalid");
 																	} else {
 																		BigDecimal dBal = pBal.add(nBald);
+																		dwTransac.setTrasacamount(nBald);
+																		dwTransac.setTransactype("Deposit");
 																		log.info("The new balance is: $"+ dBal);
 																		log.info(accountCRUD.accountUpdate(aid, dBal));
+																		accountCRUD.makeTransac(dwTransac);
 																		
 																	}
 
@@ -244,6 +256,9 @@ public class BankMain {
 																		wBal = pBal.subtract(nBalw);
 																		log.info("The new balance is: $"+ wBal);
 																		log.info(accountCRUD.accountUpdate(aid, wBal));
+																		dwTransac.setTrasacamount(nBalw);
+																		dwTransac.setTransactype("Withdraw");
+																		accountCRUD.makeTransac(dwTransac);
 																		
 																	}
 
@@ -266,6 +281,57 @@ public class BankMain {
 
 												break;
 											case 5:
+												int tflag = 0;
+												do {
+												List<Account> tAccount = accountCRUD.getBankAccount();
+												int ctid = c.getCustomerid();
+												Account at = new Account();
+												BigDecimal cBal = null;
+												BigDecimal zer = new BigDecimal(0);
+												
+												log.info("Please enter the following details");
+												Transactions transacN = new Transactions();
+												log.info("Entering customer id "+ ctid);
+												transacN.setCustomerid(ctid);
+												log.info("Enter the account id you want to withdraw money from");
+												int tnid = Integer.parseInt(scanner.nextLine());
+												transacN.setAccountid(tnid);
+												
+												log.info("Enter the target bank acount id you want to transfer the money to");
+												transacN.setTargetid(Integer.parseInt(scanner.nextLine()));
+												
+												for (int k = 0; k < tAccount.size(); k++) {
+													at = tAccount.get(k);
+													if(at.getAccountid()== tnid) {
+														cBal = at.getBalance();
+													}
+													
+												}
+												log.info("Enter the amount of money you want to transfer, it must be positive and contain 2 decimal places");
+												BigDecimal tnBal = new BigDecimal(scanner.nextLine());
+												if(tnBal.compareTo(zer) <= -1 && cBal.subtract(tnBal).compareTo(zer) <= -1) {
+													log.info("Entered balance "+ tnBal+" is invalid");
+												} else {
+													transacN.setTrasacamount(tnBal);
+												}
+												
+												
+												
+												transacN.setTransacstatus("Pending");
+												transacN.setTransactype("Transfer");
+												
+												if(accountCRUD.makeTransac(transacN) == 1) {
+													log.info("Transaction posted successfully, please wait for approval");
+													log.info(transacN);
+													//update bank account
+													log.info(accountCRUD.accountUpdate(ctid, cBal.subtract(tnBal)));
+													
+													tflag = 1;
+												}
+												
+												}while(tflag != 1);
+												break;
+											case 6:
 												log.info("Logging out...");
 
 												break;
@@ -275,7 +341,7 @@ public class BankMain {
 														"Invalid choice, please enter a proper choice between 1-4 only...");
 												break;
 											}
-										} while (cu != 5);
+										} while (cu != 6);
 
 									}
 
@@ -292,7 +358,7 @@ public class BankMain {
 					e1.printStackTrace();
 				}
 				break;
-//====================================================================================
+//====================================================================================================================================================
 			case 2:
 
 				try {

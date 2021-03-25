@@ -22,14 +22,11 @@ public interface AccountCRUD {
 	
 	//make customer transactions
 	public int makeTransac(Transactions transactions) throws BusinessBankException;
-	
-	//view pending transactions as customer
-	public List<Transactions> getTransac(int transacid) throws BusinessBankException;
-	
+		
 	//view transaction log as employee
 	public List<Transactions> getTransac() throws BusinessBankException;
 	
 	//process transactions as customer
-	public String updateTransac(String tStatus, int transacid);
+	public String updateTransac(String tStatus, int transacid) throws BusinessBankException;
 
 }

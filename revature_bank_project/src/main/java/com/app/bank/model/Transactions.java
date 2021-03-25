@@ -25,6 +25,10 @@ public class Transactions {
 		this.transactype = transactype;
 	}
 
+	public Transactions() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public String toString() {
 		return "Transactions [transacdate=" + transacdate + ", transacid=" + transacid + ", transactype=" + transactype

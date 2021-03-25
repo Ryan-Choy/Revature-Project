@@ -130,25 +130,107 @@ public class AccountCRUDDAOImpl implements AccountCRUDDAO {
 
 	@Override
 	public int makeTransac(Transactions transactions) throws BusinessBankException {
-		// TODO Auto-generated method stub
-		return 0;
+		int c = 0;
+		String date = " ";
+		int tid = 0;
+		Connection connect = null;
+		try {
+			connect = BankConnection.getConnection();
+			String sql = "insert into bank_schema.transactions(customerid,accountid,targetid,transacamount,transacstatus,transactype) values(?,?,?,?,?,?)";
+			connect.setAutoCommit(false);
+			
+			PreparedStatement prep = connect.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+			prep.setInt(1, transactions.getCustomerid());
+			prep.setInt(2, transactions.getAccountid());
+			prep.setInt(3, transactions.getTargetid());
+			prep.setBigDecimal(4, transactions.getTrasacamount());
+			prep.setString(5, transactions.getTransacstatus());
+			prep.setString(6, transactions.getTransactype());
+			
+			c = prep.executeUpdate();
+			ResultSet rSet = prep.getGeneratedKeys();
+			if(rSet.next()) {
+				tid = rSet.getInt("transacid");
+				date = rSet.getString("transacdate");
+				transactions.setTransacid(tid);
+				transactions.setTransacdate(date);
+			}
+			
+			connect.commit();
+			connect.close();
+			
+		}catch(ClassNotFoundException | SQLException e) {
+			throw new BusinessBankException("Internal error occured...Please contact SYS ADMIN.");
+		}
+		
+		return c;
 	}
 
-	@Override
-	public List<Transactions> getTransac(int transacid) throws BusinessBankException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<Transactions> getTransac() throws BusinessBankException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Transactions> viewTLog = new ArrayList<>();
+		
+		try {
+			Connection connect = BankConnection.getConnection();
+			String sql = "select transacdate,customerid,accountid,targetid,transacamount,transacstatus,transacid,transactype from bank_schema.transactions order by transacid";
+			PreparedStatement prep = connect.prepareStatement(sql);
+			ResultSet rSet = prep.executeQuery();
+			while(rSet.next()) {
+				Transactions transac = new Transactions();
+				transac.setTransacdate(rSet.getString("transacdate"));
+				transac.setCustomerid(rSet.getInt("customerid"));
+				transac.setAccountid(rSet.getInt("accountid"));
+				transac.setTargetid(rSet.getInt("targetid"));
+				transac.setTrasacamount(new BigDecimal(rSet.getString("transacamount").replaceAll("[$,]", "")));
+				transac.setTransacstatus(rSet.getString("transacstatus"));
+				transac.setTransacid(rSet.getInt("transacid"));
+				transac.setTransactype(rSet.getString("transactype"));
+				viewTLog.add(transac);
+			}
+
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			throw new BusinessBankException("Internal error occured...Please contact SYS ADMIN.");
+		} 
+				
+		return viewTLog;
 	}
 
 	@Override
-	public String updateTransac(String tStatus, int transacid) {
-		return null;
+	public String updateTransac(String tStatus, int transacid) throws BusinessBankException {
+		String result = " ";
+		int c = 0;
+		Connection connect = null;
+		
+		try {
+			connect = BankConnection.getConnection();
+			connect.setAutoCommit(false);
+			String sql = "update bank_schema.transactions set transacstatus=? where transacid=?";
+			PreparedStatement prep = connect.prepareStatement(sql);
+			prep.setString(1, tStatus);
+			prep.setInt(2, transacid);
+			c = prep.executeUpdate();
+			
+			if(c == 1) {
+				result = "Transaction processed successfully";
+				connect.commit();
+				connect.close();
+			}else {
+				result = "Process has failed";
+				connect.close();
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			try {
+				connect.rollback();
+				throw new BusinessBankException("Internal error occured...Please contact SYS ADMIN.");
+			} catch (SQLException e1) {
+
+			}
+			
+		}
+		
+		return result;
 	}
 
 	@Override

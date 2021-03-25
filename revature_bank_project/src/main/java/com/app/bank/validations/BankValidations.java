@@ -79,6 +79,13 @@ public class BankValidations {
 			return false;
 		}
 	}
+	public static boolean isValidTransferType(String transfertype) {
+		if(transfertype != null && transfertype.matches("Transfer|Withdraw|Deposit")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public static boolean isValidBalance(BigDecimal balance) {
 		if (balance.compareTo(new BigDecimal(0)) >= 0) {
