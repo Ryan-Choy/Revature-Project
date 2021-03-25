@@ -1,5 +1,6 @@
 package com.app.bank.user.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.app.bank.exception.BusinessBankException;
@@ -14,7 +15,10 @@ public interface AccountCRUD {
 	public List<Account> getBankAccount() throws BusinessBankException;
 	
 	//customer deposit or withdrawal
-	public Account accountUpdate(int accountid, int balance) throws BusinessBankException;
+	public String accountUpdate(int accountid, BigDecimal balance) throws BusinessBankException;
+	
+	//account process
+	public String accountProcess(String statup, int aid) throws BusinessBankException;
 	
 	//make customer transactions
 	public int makeTransac(Transactions transactions) throws BusinessBankException;

@@ -30,21 +30,16 @@ public class AccountCRUDImpl implements AccountCRUD {
 
 	@Override
 	public List<Account> getBankAccount() throws BusinessBankException {
-//		if(!BankValidations.isValidId(customerid)) {
-//			throw new BusinessBankException("Entered customer id "+ customerid + " is invalid");
-//		}
-//		
-//		if(!BankValidations.isValidStatus(accstatus)) {
-//			throw new BusinessBankException("Entered status "+ accstatus + " is invalid");
-//
-//		}
+
 		return accountcruddao.getBankAccount();
 	}
 
 	@Override
-	public Account accountUpdate(int accountid, int balance) throws BusinessBankException {
-		// TODO Auto-generated method stub
-		return null;
+	public String accountUpdate(int accountid, BigDecimal balance) throws BusinessBankException {
+		if(!BankValidations.isValidBalance(balance)) {
+			
+		}
+		return accountcruddao.accountUpdate(accountid, balance);
 	}
 
 	@Override
@@ -69,6 +64,17 @@ public class AccountCRUDImpl implements AccountCRUD {
 	public String updateTransac(String tStatus, int transacid) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String accountProcess(String statup, int aid) throws BusinessBankException {
+		if(!BankValidations.isValidStatus(statup)) {
+			throw new BusinessBankException("Entered status "+ statup + " is invalid");
+		}
+		if(!BankValidations.isValidId(aid)) {
+			throw new BusinessBankException("Entered account id "+ aid + " is invalid");
+		}
+		return accountcruddao.accountProcess(statup, aid);
 	}
 
 }

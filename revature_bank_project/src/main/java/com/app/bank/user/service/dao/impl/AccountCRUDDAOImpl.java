@@ -68,15 +68,15 @@ public class AccountCRUDDAOImpl implements AccountCRUDDAO {
 		List<Account> viewBankAccount = new ArrayList<>();
 		
 		try(Connection connect = BankConnection.getConnection()){
-			String sql = "select customerid,accountid,balance,accountstatus from bank_schema.account";
-			PreparedStatement prep = connect.prepareStatement(sql);
+			String sqla = "select a.customerid,a.accountid,a.accountstatus,a.balance from bank_schema.account a order by accountid";
+			PreparedStatement prep = connect.prepareStatement(sqla);
 			ResultSet rSet = prep.executeQuery();
-			if(rSet.next()) {
+			while(rSet.next()) {
 				Account account = new Account();
 				account.setCustomerid(rSet.getInt("customerid"));
 				account.setAccountid(rSet.getInt("accountid"));
-				account.setBalance(new BigDecimal(rSet.getString("balance").replaceAll("[$,]", "")));
 				account.setAccountstatus(rSet.getString("accountstatus"));
+				account.setBalance(new BigDecimal(rSet.getString("balance").replaceAll("[$,]", "")));
 				viewBankAccount.add(account);
 			}
 			
@@ -90,9 +90,42 @@ public class AccountCRUDDAOImpl implements AccountCRUDDAO {
 	}
 
 	@Override
-	public Account accountUpdate(int accountid, int balance) throws BusinessBankException {
-		// TODO Auto-generated method stub
-		return null;
+	public String accountUpdate(int accountid, BigDecimal balance) throws BusinessBankException {
+		String upresult = " ";
+		int c = 0;
+		Connection connect = null;
+		try {
+			connect = BankConnection.getConnection();
+			connect.setAutoCommit(false);
+			String sql = "update bank_schema.account set balance=? where accountid=?";
+			PreparedStatement prep = connect.prepareStatement(sql);
+			prep.setBigDecimal(1, balance);
+			prep.setInt(2, accountid);
+			c = prep.executeUpdate();
+			
+			if(c == 1) {
+				upresult = "Bank account updated successfully";
+				connect.commit();
+				connect.close();
+			}else {
+				upresult = "Bank account update failed";
+				connect.close();
+			}
+			
+			
+		}catch(ClassNotFoundException | SQLException e) {
+			
+			try {
+				connect.rollback();
+				throw new BusinessBankException("Internal error occured...Please contact SYS ADMIN.");
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				log.info(e1);
+			}
+			
+		}
+		
+		return upresult;
 	}
 
 	@Override
@@ -115,8 +148,42 @@ public class AccountCRUDDAOImpl implements AccountCRUDDAO {
 
 	@Override
 	public String updateTransac(String tStatus, int transacid) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String accountProcess(String statup, int aid) throws BusinessBankException {
+		String result = " ";
+		int c = 0;
+		Connection connect = null;
+		try {
+			connect = BankConnection.getConnection();
+			connect.setAutoCommit(false);
+			String sql = "update bank_schema.account set accountstatus=? where accountid=?";
+			PreparedStatement prep = connect.prepareStatement(sql);
+			prep.setString(1, statup);
+			prep.setInt(2, aid);
+			c = prep.executeUpdate();
+			
+			if(c == 1) {
+				result = "Bank account processed successfully";
+				connect.commit();
+				connect.close();
+			}else {
+				result = "Process has failed";
+				connect.close();
+			}
+			
+		} catch(ClassNotFoundException | SQLException e) {
+			try {
+				connect.rollback();
+				throw new BusinessBankException("Internal error occured...Please contact SYS ADMIN.");
+			} catch (SQLException e1) {
+				log.info(e1);
+			}
+		}
+		return result;
+		
 	}
 
 }

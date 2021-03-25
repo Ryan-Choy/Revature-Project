@@ -1,6 +1,7 @@
 package com.app.bank.main;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,10 +14,8 @@ import com.app.bank.model.Employee;
 import com.app.bank.model.User;
 import com.app.bank.user.service.AccountCRUD;
 import com.app.bank.user.service.UserCRUD;
-import com.app.bank.user.service.UserLogIn;
 import com.app.bank.user.service.impl.AccountCRUDImpl;
 import com.app.bank.user.service.impl.UserCRUDImpl;
-import com.app.bank.user.service.impl.UserLogInImpl;
 
 public class BankMain {
 	private static Logger log = Logger.getLogger(BankMain.class);
@@ -27,7 +26,6 @@ public class BankMain {
 		int us = 0;
 		Scanner scanner = new Scanner(System.in);
 		UserCRUD userCRUD = new UserCRUDImpl();
-		UserLogIn userLogIn = new UserLogInImpl();
 		AccountCRUD accountCRUD = new AccountCRUDImpl();
 		do {
 			log.info("Hello user");
@@ -40,7 +38,7 @@ public class BankMain {
 			try {
 				us = Integer.parseInt(scanner.nextLine());
 			} catch (NumberFormatException e) {
-
+				us = 0;
 			}
 
 			switch (us) {
@@ -55,8 +53,8 @@ public class BankMain {
 					log.info("Please enter your password");
 					String userpassword = scanner.nextLine();
 					boolean login = false;
-					
 
+					// login in for customers
 					for (int i = 0; i < listUsers.size(); i++) {
 						User u = listUsers.get(i);
 						if (u.getUsername().matches(username) && u.getUserpassword().matches(userpassword)) {
@@ -74,6 +72,7 @@ public class BankMain {
 												"Sorry, your account is rejected, please contact an employee for details");
 										login = true;
 									} else if (c.getCustomerstatus().matches("Approved")) {
+										// customer login successful
 										login = true;
 										log.info("Login successful! Welcome Customer " + c.getFirstname() + " "
 												+ c.getLastname());
@@ -98,11 +97,11 @@ public class BankMain {
 												break;
 											case 2:
 												// bank account creation
-												log.info("Please enter the desired balance for your new bank account in the format #.##");
+												log.info(
+														"Please enter the desired balance for your new bank account in the format #.##");
 												Account account = new Account();
 												int idc = c.getCustomerid();
 												BigDecimal newbal = new BigDecimal(scanner.nextLine());
-												
 
 												account.setCustomerid(idc);
 												account.setBalance(newbal);
@@ -114,12 +113,156 @@ public class BankMain {
 												}
 
 												break;
+
+											// view account balance
 											case 3:
-												log.info("in construction");
+												List<Account> viewCAccount = accountCRUD.getBankAccount();
+												log.info("Choose the account that you want to see the balance of");
+												LinkedHashMap<Integer, Integer> viewAMap = new LinkedHashMap<>();
+												int acid = c.getCustomerid();
+												int atrack = 0;
+												Account a = null;
+												for (int k = 0; k < viewCAccount.size(); k++) {
+													a = viewCAccount.get(k);
+													if (a.getCustomerid() == acid
+															&& a.getAccountstatus().matches("Approved")) {
+														log.info((atrack + 1) + ") Account Id: " + a.getAccountid());
+														viewAMap.put(atrack, k);
+														atrack++;
+													}
+												}
+												if (atrack == 0) {
+													log.info("You have no approved bank accounts to view");
+												} else {
+													log.info((atrack + 1) + ") Return to customer submenu");
+
+													int selba = 0;
+
+													try {
+														selba = Integer.parseInt(scanner.nextLine());
+													} catch (NumberFormatException e) {
+														selba = 0;
+													}
+
+													if (selba > 0 && selba <= (atrack + 1)) {
+														if (selba == (atrack + 1)) {
+															break;
+														} else {
+															int apoint = viewAMap.get(selba - 1);
+															log.info("Printing account balance");
+															log.info("Account id: "
+																	+ viewCAccount.get(apoint).getAccountid()
+																	+ ", Balance: $"
+																	+ viewCAccount.get(apoint).getBalance() + "\n");
+														}
+													} else {
+														log.info("Invalid input, please enter a number between 1-"
+																+ (atrack + 1));
+													}
+												}
 
 												break;
 											case 4:
-												log.info("in construction");
+												// deposit/withdrawal
+												List<Account> updateAccount = accountCRUD.getBankAccount();
+												log.info("Choose the account that you want to see the balance of");
+												LinkedHashMap<Integer, Integer> updateAMap = new LinkedHashMap<>();
+												int cid = c.getCustomerid();
+												int uatrack = 0;
+												Account ua = null;
+												for (int k = 0; k < updateAccount.size(); k++) {
+													ua = updateAccount.get(k);
+													if (ua.getCustomerid() == cid
+															&& ua.getAccountstatus().matches("Approved")) {
+														log.info((uatrack + 1) + ") Account Id: " + ua.getAccountid());
+														updateAMap.put(uatrack, k);
+														uatrack++;
+													}
+												}
+												if (uatrack == 0) {
+													log.info("You have no approved bank accounts to view");
+												} else {
+													log.info((uatrack + 1) + ") Return to customer submenu");
+
+													int selua = 0;
+
+													try {
+														selua = Integer.parseInt(scanner.nextLine());
+													} catch (NumberFormatException e) {
+														selua = 0;
+													}
+
+													if (selua > 0 && selua <= (uatrack + 1)) {
+														if (selua == (uatrack + 1)) {
+															break;
+														} else {
+														
+															int apoint = updateAMap.get(selua - 1);
+															log.info("Printing account balance");
+															log.info("Account id: "
+																	+ updateAccount.get(apoint).getAccountid()
+																	+ ", Balance: $"
+																	+ updateAccount.get(apoint).getBalance() + "\n");
+
+															int wdflag = 0;
+															do {
+																log.info("Choose the following");
+																log.info("1) Make a deposit");
+																log.info("2) Make a withdrawal");
+																log.info("3) Cancel");
+																BigDecimal pBal = updateAccount.get(apoint).getBalance();
+																int aid = updateAccount.get(apoint).getAccountid();
+																BigDecimal fBal = new BigDecimal(0);
+																BigDecimal wBal = null;
+																
+																try {
+																	wdflag = Integer.parseInt(scanner.nextLine());
+																} catch (NumberFormatException e) {
+																
+																}
+																
+																switch (wdflag) {
+																case 1:
+																	log.info("Please enter the amount you want to deposit, the amount must be positive and has two decimal places");
+																	BigDecimal nBald = new BigDecimal(scanner.nextLine());
+																	if(nBald.compareTo(fBal) <= -1){
+																		log.info("Entered amount "+ nBald+ " is invalid");
+																	} else {
+																		BigDecimal dBal = pBal.add(nBald);
+																		log.info("The new balance is: $"+ dBal);
+																		log.info(accountCRUD.accountUpdate(aid, dBal));
+																		
+																	}
+
+																	break;
+																case 2:
+																	log.info("Please enter the amount you want to withdraw, the amount must be positive and has two decimal places");
+																	BigDecimal nBalw = new BigDecimal(scanner.nextLine());
+																	if(nBalw.compareTo(fBal) <= -1 && pBal.subtract(nBalw).compareTo(fBal) <= -1){
+																		log.info("Entered amount "+ nBalw+ " is invalid");
+																	} else {
+																		wBal = pBal.subtract(nBalw);
+																		log.info("The new balance is: $"+ wBal);
+																		log.info(accountCRUD.accountUpdate(aid, wBal));
+																		
+																	}
+
+																	break;
+																case 3:
+
+																	break;
+																default:
+																	log.info("Invalid input, please enter a number between 1-3");
+																	break;
+																}
+
+															} while (wdflag != 3);
+														}
+													} else {
+														log.info("Invalid input, please enter a number between 1-"
+																+ (uatrack + 1));
+													}
+												}
 
 												break;
 											case 5:
@@ -140,7 +283,7 @@ public class BankMain {
 							}
 						}
 					}
-					if(login == false) {
+					if (login == false) {
 						log.info("Login failed");
 					}
 
@@ -159,6 +302,7 @@ public class BankMain {
 					String employname = scanner.nextLine();
 					log.info("Please enter your password");
 					String employpassword = scanner.nextLine();
+					boolean login = false;
 
 					for (int i = 0; i < listUsers.size(); i++) {
 						User u = listUsers.get(i);
@@ -168,6 +312,7 @@ public class BankMain {
 								if (u.getFirstname().matches(e.getFirstname())
 										&& u.getLastname().matches(e.getLastname())
 										&& u.getUsername().matches(e.getUsername())) {
+									login = true;
 									log.info("Login successful! Welcome Employee " + e.getFirstname() + " "
 											+ e.getLastname());
 									int em = 0;
@@ -188,13 +333,28 @@ public class BankMain {
 
 										case 1:
 											// result set, list, update
-
 											int up = 0;
+
 											do {
+
 												List<Customer> upCustomer = userCRUD.getCustomer();
 												List<Account> upAccount = accountCRUD.getBankAccount();
-												int pendcust = upCustomer.size();
+												int pendcust = 0;
 												int pendbank = 0;
+
+												for (int k = 0; k < upCustomer.size(); k++) {
+													Customer c = upCustomer.get(k);
+
+													if (c.getCustomerstatus().matches("Pending")) {
+														pendcust += 1;
+													}
+												}
+												for (int k = 0; k < upAccount.size(); k++) {
+													Account a = upAccount.get(k);
+													if (a.getAccountstatus().matches("Pending")) {
+														++pendbank;
+													}
+												}
 												log.info("You have " + pendcust + " customer accounts and " + pendbank
 														+ " bank accounts waiting to be to be approved or rejected");
 												log.info("Enter one of the following to navigate the menu");
@@ -205,8 +365,6 @@ public class BankMain {
 												try {
 													up = Integer.parseInt(scanner.nextLine());
 												} catch (NumberFormatException e1) {
-
-													e1.printStackTrace();
 												}
 
 												switch (up) {
@@ -215,16 +373,21 @@ public class BankMain {
 														log.info(
 																"There are no pending customer accounts to be processed");
 													} else {
-														log.info("Please enter the customer account between 1 - "
-																+ (upCustomer.size()));
+														log.info(
+																"Please enter the appropriate number to process a customer account");
+														LinkedHashMap<Integer, Integer> pendcmap = new LinkedHashMap<>();
+
 														int ccount = 1;
 														for (int i1 = 0; i1 < upCustomer.size(); i1++) {
-															if (upCustomer.get(i1).getCustomerstatus() == "Pending") {
-																log.info((ccount) + ")" + upCustomer.get(i1));
+															if (upCustomer.get(i1).getCustomerstatus()
+																	.matches("Pending")) {
+																log.info((ccount) + ") " + upCustomer.get(i1));
+																pendcmap.put(ccount,
+																		upCustomer.get(i1).getCustomerid());
 																ccount++;
 															}
 														}
-														log.info((ccount + 1) + ") Cancel the process");
+														log.info((ccount) + ") Cancel the process");
 														int selc = 0;
 														try {
 
@@ -232,17 +395,17 @@ public class BankMain {
 														} catch (NumberFormatException e1) {
 
 														}
-														if (selc > 0 && selc <= upCustomer.size() + 1) {
-															if (selc == upCustomer.size() + 1) {
+														if (selc > 0 && selc <= (ccount)) {
+															if (selc == (ccount)) {
 																break;
 															} else {
 																// update customer account here
 																int arc = 0;
-																int custid = upCustomer.get((selc - 1)).getCustomerid();
+																int custid = pendcmap.get(selc);
 																String cstat = " ";
 																do {
 																	log.info(
-																			"Enter the following to approve or reject the account.");
+																			"Enter the following to approve or reject the customer account.");
 																	log.info("1) Approve");
 																	log.info("2) Reject");
 																	log.info("3) Cancel");
@@ -281,7 +444,7 @@ public class BankMain {
 														} else {
 															log.info(
 																	"Invalid choice, please enter a proper choice between 1-"
-																			+ (upCustomer.size() + 1) + " only...");
+																			+ (ccount) + " only...");
 														}
 
 													}
@@ -289,6 +452,85 @@ public class BankMain {
 
 												// bank accounts
 												case 2:
+													if (pendbank == 0) {
+														log.info("There are no pending bank accounts");
+													} else {
+														log.info(
+																"Please enter the appropriate number to process a bank account");
+														LinkedHashMap<Integer, Integer> pendbmap = new LinkedHashMap<>();
+
+														int bcount = 1;
+														for (int i1 = 0; i1 < upAccount.size(); i1++) {
+															if (upAccount.get(i1).getAccountstatus()
+																	.matches("Pending")) {
+																log.info((bcount) + ") " + upAccount.get(i1));
+																pendbmap.put(bcount, upAccount.get(i1).getAccountid());
+																bcount++;
+															}
+														}
+														log.info((bcount) + ") Cancel the process");
+														int selb = 0;
+
+														try {
+															selb = Integer.parseInt(scanner.nextLine());
+														} catch (NumberFormatException e1) {
+															selb = 0;
+														}
+														if (selb > 0 && selb <= (bcount)) {
+															if (selb == (bcount)) {
+																break;
+															} else {
+																int arb = 0;
+																int bankid = pendbmap.get(selb);
+																String bstat = " ";
+																do {
+																	log.info(
+																			"Enter the following to approve or reject the customer account.");
+																	log.info("1) Approve");
+																	log.info("2) Reject");
+																	log.info("3) Cancel");
+
+																	try {
+																		arb = Integer.parseInt(scanner.nextLine());
+																	} catch (NumberFormatException e1) {
+
+																	}
+																	switch (arb) {
+																	case 1:
+																		// approve
+																		bstat = "Approved";
+																		log.info(accountCRUD.accountProcess(bstat,
+																				bankid));
+
+																		arb = 3;
+																		break;
+																	case 2:
+																		// reject
+																		bstat = "Rejected";
+																		log.info(accountCRUD.accountProcess(bstat,
+																				bankid));
+
+																		arb = 3;
+																		break;
+																	case 3:
+																		// cancel
+
+																		break;
+																	default:
+																		log.info(
+																				"Invalid choice, please enter a proper choice between 1-3 only...");
+																		break;
+																	}
+																} while (arb != 3);
+
+															}
+														} else {
+															log.info(
+																	"Invalid choice, please enter a proper choice between 1-"
+																			+ (bcount) + " only...");
+														}
+
+													}
 
 													break;
 												case 3:
@@ -305,56 +547,67 @@ public class BankMain {
 										// ==========================================================================================================
 										// view customer bank accounts
 										case 2:
-
-											log.info(
-													"Choose from the following customer accounts to view their bank accounts.");
-
 											int vib = 0;
+
 											do {
 												List<Customer> viewCustomer = userCRUD.getCustomer();
-												if (viewCustomer.size() == 0) {
+												List<Account> viewAccount = accountCRUD.getBankAccount();
+												int apccount = 0;
+												LinkedHashMap<Integer, Integer> appcmap = new LinkedHashMap();
+
+												log.info(
+														"Choose from the following customer accounts to view their bank accounts.");
+												for (int k = 0; k < viewCustomer.size(); k++) {
+													Customer c = viewCustomer.get(k);
+													if (c.getCustomerstatus().matches("Approved")) {
+														log.info((apccount + 1) + ") Customer Id: " + c.getCustomerid()
+																+ ": " + c.getFirstname() + " " + c.getLastname());
+														appcmap.put(k, c.getCustomerid());
+														apccount++;
+													}
+												}
+
+												if (apccount == 0) {
 													log.info("There are no approved customer accounts to view");
 													vib = 1;
 												} else {
-													log.info("Please enter the customer account between 1 - "
-															+ (viewCustomer.size()));
-													for (int i1 = 0; i1 < viewCustomer.size(); i1++) {
-														log.info((i1 + 1) + ") " + viewCustomer.get(i1));
-													}
-													log.info(
-															(viewCustomer.size() + 1) + ") Return to employee submenu");
-													int selc = 0;
+													log.info((apccount + 1) + ") Return to employee submenu");
+													int selapp = 0;
+
 													try {
-														selc = Integer.parseInt(scanner.nextLine());
+														selapp = Integer.parseInt(scanner.nextLine());
 													} catch (NumberFormatException e1) {
-
+														selapp = 0;
 													}
-
-													if (selc > 0 && selc <= viewCustomer.size() + 1) {
-														if (selc == viewCustomer.size() + 1) {
+													if (selapp > 0 && selapp <= (apccount + 1)) {
+														if (selapp == apccount + 1) {
 															break;
 														} else {
-															int aid = viewCustomer.get((selc - 1)).getCustomerid();
-															int acount = 0;
-															List<Account> viewAccount = accountCRUD.getBankAccount();
-															for (int i1 = 0; i1 < viewAccount.size(); i1++) {
-																if (viewAccount.get(i1).getAccountstatus() == "Approved"
-																		&& viewAccount.get(i1).getCustomerid() == aid) {
-																	log.info(viewAccount.get(i1));
-																	acount++;
-																}
-															}
-															if (acount == 0) {
-																log.info("This customer has no approved accounts");
-															}
+															log.info("Printing account details for the customer");
 
+															int point = appcmap.get(selapp - 1);
+															int noapp = 0;
+															for (int k = 0; k < viewAccount.size(); k++) {
+																Account a = viewAccount.get(k);
+																if (a.getCustomerid() == point
+																		&& a.getAccountstatus().matches("Approved")) {
+																	log.info("Account id: " + a.getAccountid()
+																			+ ", Account Balance: $" + a.getBalance());
+																	noapp++;
+																}
+
+															}
+															if (noapp == 0) {
+																log.info("Customer has no approved accounts");
+															}
 														}
 
 													} else {
 														log.info(
 																"Invalid choice, please enter a proper choice between 1-"
-																		+ (viewCustomer.size() + 1) + " only...");
+																		+ (apccount) + " only...");
 													}
+
 												}
 
 											} while (vib != 1);
@@ -363,7 +616,7 @@ public class BankMain {
 
 										// ==========================================================================================================
 										case 3:
-											log.info("in construction");
+
 											log.info("Loading transaction log");
 											log.info("Loading successfull!");
 
@@ -383,15 +636,15 @@ public class BankMain {
 
 									} while (em != 4);
 
-								} else {
-									log.info("Login failed");
 								}
 
 							}
 
-						} else {
-							log.info("Login failed");
 						}
+
+					}
+					if (login == false) {
+						log.info("Login failed");
 					}
 
 				} catch (BusinessBankException e2) {

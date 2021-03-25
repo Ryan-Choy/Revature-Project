@@ -84,7 +84,7 @@ public class UserCRUDDAOImpl implements UserCRUDDAO {
 		Connection connect = null;
 		try {
 			connect = BankConnection.getConnection();
-			String sql1 = "select customerid,firstname,lastname,username,city,state,phone,email,customerstatus from bank_schema.customer";
+			String sql1 = "select customerid,firstname,lastname,username,city,state,phone,email,customerstatus from bank_schema.customer order by customerid";
 			connect.setAutoCommit(false);
 
 			PreparedStatement prep = connect.prepareStatement(sql1);
@@ -159,7 +159,7 @@ public class UserCRUDDAOImpl implements UserCRUDDAO {
 		List<User> listUsers = new ArrayList<>();
 		try (Connection connect = BankConnection.getConnection()) {
 
-			String sql = "select firstname,lastname,username,userpassword,usertype from bank_schema.users";
+			String sql = "select firstname,lastname,username,userpassword,usertype from bank_schema.users order by firstname";
 			PreparedStatement prep = connect.prepareStatement(sql);
 			ResultSet rSet = prep.executeQuery();
 			while (rSet.next()) {
@@ -185,7 +185,7 @@ public class UserCRUDDAOImpl implements UserCRUDDAO {
 		List<Employee> listEmployees = new ArrayList<>();
 		try (Connection connect = BankConnection.getConnection()) {
 
-			String sql = "select employid,firstname,lastname,username from bank_schema.employee";
+			String sql = "select employid,firstname,lastname,username from bank_schema.employee order by employid";
 			PreparedStatement prep = connect.prepareStatement(sql);
 			ResultSet rSet = prep.executeQuery();
 			while (rSet.next()) {
