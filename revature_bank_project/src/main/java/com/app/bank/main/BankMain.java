@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
+import com.app.bank.event.BankLogger;
 import com.app.bank.exception.BusinessBankException;
 import com.app.bank.model.Account;
 import com.app.bank.model.Customer;
@@ -23,6 +24,7 @@ public class BankMain {
 	private static Logger log = Logger.getLogger(BankMain.class);
 
 	public static void main(String[] args) {
+		BankLogger logger = new BankLogger();
 		log.info("Welcome to Ryan Choy's Banking App version 1.0");
 		log.info("=============================================");
 		int us = 0;
@@ -162,6 +164,8 @@ public class BankMain {
 																						a.getBalance().add(
 																								t.getTrasacamount()));
 																				log.info("Update Success!");
+																				logger.transacProcess();
+																				
 																			}
 																		}
 
@@ -179,6 +183,7 @@ public class BankMain {
 																						atrac.getBalance().subtract(
 																								t.getTrasacamount()));
 																				log.info("Update Success!");
+																				logger.transacProcess();
 																			}
 																		}
 
@@ -215,6 +220,7 @@ public class BankMain {
 												if (accountCRUD.createBankAccount(account, idc) == 1) {
 													log.info(
 															"Bank account successfully created, please wait for an employee to approve or reject it.");
+													logger.bankAccountmake();
 													log.info(account);
 												}
 
@@ -349,6 +355,7 @@ public class BankMain {
 																		log.info("The new balance is: $" + dBal);
 																		log.info(accountCRUD.accountUpdate(aid, dBal));
 																		accountCRUD.makeTransac(dwTransac);
+																		logger.depositMake();
 
 																	}
 
@@ -369,6 +376,7 @@ public class BankMain {
 																		dwTransac.setTrasacamount(nBalw);
 																		dwTransac.setTransactype("Withdraw");
 																		accountCRUD.makeTransac(dwTransac);
+																		logger.withdrawMake();
 
 																	}
 
@@ -435,6 +443,7 @@ public class BankMain {
 													if (accountCRUD.makeTransac(transacN) == 1) {
 														log.info(
 																"Transaction posted successfully, please wait for approval");
+														logger.transacMake();
 														log.info(transacN);
 														// update bank account
 														log.info(accountCRUD.accountUpdate(ctid, cBal.subtract(tnBal)));
