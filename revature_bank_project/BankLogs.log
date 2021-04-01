@@ -1,1 +1,4 @@
 {DEBUG} -  [com.app.bank.event.BankLogger]   -     Deposit action made     Mar-25-2021 Thursday PDT 03:32:14
+{DEBUG} -  [com.app.bank.event.BankLogger]   -     Deposit action made     Mar-25-2021 Thursday PDT 07:59:40
+{DEBUG} -  [com.app.bank.event.BankLogger]   -     Bank account created     Mar-25-2021 Thursday PDT 08:03:12
+{DEBUG} -  [com.app.bank.event.BankLogger]   -     Transaction made     Mar-25-2021 Thursday PDT 08:05:19

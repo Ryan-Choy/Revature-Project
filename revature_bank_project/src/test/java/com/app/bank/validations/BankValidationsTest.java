@@ -20,6 +20,6 @@ public class BankValidationsTest {
 	
 	@Test
 	public void testisValidBalance() {
-		assertEquals(true, BankValidations.isValidBalance(new BigDecimal("100")));
+		assertEquals(true, BankValidations.isValidBalance(new BigDecimal("-100.00")));
 	}
 }
